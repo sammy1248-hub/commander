@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.setup_done
+_setup_done
+hand_landmarker.task
+venv/
+.venv/

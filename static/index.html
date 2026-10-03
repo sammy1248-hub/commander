@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commander</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">GESTURE CONTROL // LOCAL AGENT</div>
+      <h1>COMMANDER<span>_</span></h1>
+    </div>
+    <div class="conn" id="conn">
+      <span class="dot"></span>
+      <span id="conn-text">CONNECTING</span>
+    </div>
+  </header>
+
+  <main class="grid-top">
+    <section class="panel camera-panel">
+      <div class="panel-label">LIVE FEED</div>
+      <div class="camera-frame">
+        <img id="feed" src="/video_feed" alt="Camera feed" />
+        <div class="camera-overlay" id="camera-overlay">ENGINE STOPPED</div>
+      </div>
+    </section>
+
+    <section class="panel gesture-panel">
+      <div class="panel-label">CURRENT GESTURE</div>
+      <div class="gesture-icon" id="gesture-icon">—</div>
+      <div class="gesture-label" id="gesture-label">NO GESTURE</div>
+      <div class="action-row">
+        <span class="dim">ACTION</span>
+        <span id="action-label">—</span>
+      </div>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="dim">CURSOR X</span>
+          <span id="cursor-x" class="mono">0.000</span>
+        </div>
+        <div class="stat">
+          <span class="dim">CURSOR Y</span>
+          <span id="cursor-y" class="mono">0.000</span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="dim">POINTER</span>
+          <span id="pointer-state" class="mono">LOCKED</span>
+        </div>
+        <div class="stat">
+          <span class="dim">STATE</span>
+          <span id="engine-state" class="mono">OFFLINE</span>
+        </div>
+      </div>
+      <button class="engine-btn" id="engine-btn">START ENGINE</button>
+      <div class="engine-error" id="engine-error"></div>
+    </section>
+  </main>
+
+  <section class="panel status-panel">
+    <div class="panel-label">SYSTEM STATUS</div>
+    <div class="status-grid">
+      <div class="status-row">
+        <span class="status-dot" id="dot-backend"></span>
+        <span>BACKEND</span>
+        <span class="status-val mono" id="val-backend">OFFLINE</span>
+      </div>
+      <div class="status-row">
+        <span class="status-dot" id="dot-engine"></span>
+        <span>ENGINE</span>
+        <span class="status-val mono" id="val-engine">OFFLINE</span>
+      </div>
+      <div class="status-row">
+        <span class="status-dot" id="dot-camera"></span>
+        <span>CAMERA</span>
+        <span class="status-val mono" id="val-camera">OFFLINE</span>
+      </div>
+      <div class="status-row">
+        <span class="status-dot" id="dot-hand"></span>
+        <span>HAND TRACKING</span>
+        <span class="status-val mono" id="val-hand">IDLE</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-label">GESTURE CONTROLS</div>
+    <div class="cards">
+      <div class="card" id="card-space" data-key="space">
+        <div class="dot"></div>
+        <div class="icon">✋</div>
+        <div class="gesture-name">Open Palm</div>
+        <div class="action-name">Play / Pause</div>
+      </div>
+      <div class="card" id="card-vol_up" data-key="vol_up">
+        <div class="dot"></div>
+        <div class="icon">👍</div>
+        <div class="gesture-name">Thumbs Up</div>
+        <div class="action-name">Volume Up</div>
+      </div>
+      <div class="card" id="card-vol_down" data-key="vol_down">
+        <div class="dot"></div>
+        <div class="icon">👎</div>
+        <div class="gesture-name">Thumbs Down</div>
+        <div class="action-name">Volume Down</div>
+      </div>
+      <div class="card" id="card-left_click" data-key="left_click">
+        <div class="dot"></div>
+        <div class="icon">🤟</div>
+        <div class="gesture-name">Three Fingers</div>
+        <div class="action-name">Left Click</div>
+      </div>
+      <div class="card" id="card-right_click" data-key="right_click">
+        <div class="dot"></div>
+        <div class="icon">✌️</div>
+        <div class="gesture-name">Peace Sign</div>
+        <div class="action-name">Right Click</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid-bottom">
+    <section class="panel">
+      <div class="panel-label">SETTINGS</div>
+
+      <label class="setting">
+        <div class="setting-head">
+          <span>CURSOR SMOOTHING</span>
+          <span id="smoothing-val" class="mono">0.25</span>
+        </div>
+        <input type="range" id="smoothing" min="0.05" max="1" step="0.05" value="0.25">
+      </label>
+
+      <label class="setting">
+        <div class="setting-head">
+          <span>CURSOR MARGIN</span>
+          <span id="margin-val" class="mono">0.35</span>
+        </div>
+        <input type="range" id="margin" min="0.05" max="0.45" step="0.01" value="0.35">
+      </label>
+
+      <label class="setting">
+        <div class="setting-head">
+          <span>GESTURE HOLD (FRAMES)</span>
+          <span id="confirm-val" class="mono">10</span>
+        </div>
+        <input type="range" id="confirm" min="3" max="30" step="1" value="10">
+      </label>
+    </section>
+
+    <section class="panel">
+      <div class="panel-label">ACTIVITY LOG</div>
+      <div class="log" id="log"></div>
+    </section>
+  </div>
+
+  <div class="status-line" id="fb">Initializing...</div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
